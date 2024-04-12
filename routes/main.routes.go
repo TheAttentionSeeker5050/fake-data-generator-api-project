@@ -16,7 +16,7 @@ func MainRoutes(router *gin.Engine) *gin.RouterGroup {
 		// make index route on /
 		mainRouter.GET("", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "index.html", gin.H{
+			c.HTML(http.StatusOK, "main/index.html", gin.H{
 				"title": "Hello World",
 			})
 		})
@@ -24,7 +24,7 @@ func MainRoutes(router *gin.Engine) *gin.RouterGroup {
 		// make login route on /login
 		mainRouter.GET("/login", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "login.html", gin.H{
+			c.HTML(http.StatusOK, "main/login.html", gin.H{
 				// "title": "Hello World",
 			})
 		})
@@ -32,7 +32,7 @@ func MainRoutes(router *gin.Engine) *gin.RouterGroup {
 		// make register route on /register
 		mainRouter.GET("/register", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "register.html", gin.H{
+			c.HTML(http.StatusOK, "main/register.html", gin.H{
 				// "title": "Hello World",
 			})
 		})
@@ -40,14 +40,14 @@ func MainRoutes(router *gin.Engine) *gin.RouterGroup {
 		// make logout route on /logout
 		mainRouter.GET("/logout", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "logout.html", gin.H{
+			c.HTML(http.StatusOK, "main/logout.html", gin.H{
 				// "title": "Hello World",
 			})
 		})
 
 		// make profile route on /profile
 		mainRouter.GET("/profile", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "profile.html", gin.H{
+			c.HTML(http.StatusOK, "main/profile.html", gin.H{
 				// "title": "Hello World",
 			})
 		})

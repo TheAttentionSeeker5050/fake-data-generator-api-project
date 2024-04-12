@@ -7,6 +7,24 @@ require github.com/gin-gonic/gin v1.9.1
 // use files in router directory
 replace example.com/main/routes => ./routes
 
+// use files in middlewares directory
+replace example.com/main/middlewares => ./middlewares
+
+// use files in models directory
+replace example.com/main/models => ./models
+
+// use files in utils directory
+replace example.com/main/utils => ./utils
+
+// use files in controllers directory
+replace example.com/main/controllers => ./controllers
+
+// use files in config directory
+replace example.com/main/config => ./config
+
+// // use files in templates directory
+// replace example.com/main/templates => ./templates
+
 
 require (
 	github.com/bytedance/sonic v1.11.3 // indirect

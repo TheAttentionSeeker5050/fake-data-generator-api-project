@@ -16,15 +16,15 @@ func EndpointRoutes(router *gin.Engine) *gin.RouterGroup {
 		// make index route on /
 		endpointRouter.GET("", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "list.endpoints.html", gin.H{
+			c.HTML(http.StatusOK, "endpoints/index.html", gin.H{
 				"title": "Hello World",
 			})
 		})
 
 		// make a route to edit an endpoint
-		endpointRouter.GET("/edit/:id", func(c *gin.Context) {
+		endpointRouter.GET("/:id/edit", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "add-edit.endpoints.html", gin.H{
+			c.HTML(http.StatusOK, "endpoints/add-edit.html", gin.H{
 				"title": "Hello World",
 			})
 		})
@@ -32,23 +32,23 @@ func EndpointRoutes(router *gin.Engine) *gin.RouterGroup {
 		// make a route to create an endpoint
 		endpointRouter.GET("/create", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "add-edit.endpoints.html", gin.H{
+			c.HTML(http.StatusOK, "endpoints/add-edit.html", gin.H{
 				"title": "Hello World",
 			})
 		})
 
 		// make a route to delete an endpoint
-		endpointRouter.GET("/delete/:id", func(c *gin.Context) {
+		endpointRouter.GET("/:id/delete", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "delete.endpoints.html", gin.H{
+			c.HTML(http.StatusOK, "endpoints/delete.html", gin.H{
 				"title": "Hello World",
 			})
 		})
 
 		// make a route to view an endpoint
-		endpointRouter.GET("/view/:id", func(c *gin.Context) {
+		endpointRouter.GET("/:id", func(c *gin.Context) {
 			// render page
-			c.HTML(http.StatusOK, "details.endpoints.html", gin.H{
+			c.HTML(http.StatusOK, "endpoints/details.html", gin.H{
 				"title": "Hello World",
 			})
 		})
