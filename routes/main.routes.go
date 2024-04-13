@@ -1,4 +1,4 @@
-// main route endpoints with gin
+// This package contains pages routes for the website, these will return the pages to the browser
 package routes
 
 import (
@@ -7,7 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// MainRoutes is a function that receives a pointer to a routing group and returns a pointer to a routing group
+// MainRoutes is a routing group for main routes, these consist of the index, authentication and profile routes
+// profile and logout routes are protected and require authentication and ownership of the profile
 func MainRoutes(router *gin.Engine) *gin.RouterGroup {
 
 	// make routing group /

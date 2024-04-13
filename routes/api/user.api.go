@@ -1,4 +1,4 @@
-// main route endpoints with gin
+// This package contains user REST API routes
 package routes
 
 import (

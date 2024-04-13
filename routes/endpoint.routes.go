@@ -1,4 +1,3 @@
-// main route endpoints with gin
 package routes
 
 import (
