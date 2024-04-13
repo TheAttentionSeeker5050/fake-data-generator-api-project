@@ -4,6 +4,11 @@
       Footer
     </p>
 </footer>
+
+{{range .JSFiles}}
+		<script src="{{.}}"></script>
+{{end}}
+
 </body>
 </html>
 {{end}}

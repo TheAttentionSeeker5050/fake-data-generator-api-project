@@ -19,3 +19,12 @@
 
 # Go workspace file
 go.work
+
+# node modules
+node_modules
+
+# environment variables
+.env
+
+# tailwind output file
+assets/css/tailwind.out.css

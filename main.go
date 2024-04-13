@@ -10,7 +10,11 @@ import (
 func main() {
 	router := gin.Default()
 
+	// load templates
 	router.LoadHTMLGlob("templates/**/*")
+
+	// load static files
+	router.Static("/assets", "./assets")
 
 	// import main.routes.go
 	routes.MainRoutes(router)
