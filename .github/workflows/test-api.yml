@@ -15,6 +15,6 @@ jobs:
     - uses: actions/checkout@master
     - name: run docker command on VM
       run: |
-        docker run -v $(pwd)/test:/etc/newman -t postman/newman:latest run "PostManNewman.json" --reporters="cli"
+        docker run -v $(pwd)/apiTesting:/etc/newman -t postman/newman:latest run "PostManNewman.json" --reporters="cli"
       # # if docker run fails, the job will fail
       # continue-on-error: false
