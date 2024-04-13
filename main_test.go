@@ -7,8 +7,8 @@ import (
 func TestFooBar(t *testing.T) {
 
 	// name variables
-	var foo string = "fooo"
-	var bar string = "barr"
+	var foo string = "foo"
+	var bar string = "bar"
 
 	// test if foo is equal to foo and bar is equal to bar
 	if "foo" != foo {
