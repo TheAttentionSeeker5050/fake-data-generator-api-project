@@ -1,0 +1,20 @@
+name: Automated API tests using Postman CLI
+
+on:
+  push:
+    branches: 
+    - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: run docker command on VM
+      run: |
+        docker run -v $(pwd)/apiTesting:/etc/newman -t postman/newman:latest run "PostManNewman.json" --reporters="cli"
+      # # if docker run fails, the job will fail
+      # continue-on-error: false

@@ -1,4 +1,4 @@
-// main route endpoints with gin
+// This package contains user REST API routes
 package routes
 
 import (
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// MainRoutes is a function that receives a pointer to a routing group and returns a pointer to a routing group
+// ApiUserRoutes is a group of routes for user REST API requests
 func ApiUserRoutes(router *gin.Engine) *gin.RouterGroup {
 
 	// routing group /api/user

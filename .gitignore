@@ -28,3 +28,5 @@ node_modules
 
 # tailwind output file
 assets/css/tailwind.out.css
+
+*.log
