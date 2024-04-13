@@ -1,1 +1,4 @@
 POSTMAN_API_KEY=
+
+# mysql db
+MYSQL_DB_NAME=
