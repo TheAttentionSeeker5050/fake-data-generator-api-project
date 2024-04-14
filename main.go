@@ -3,18 +3,83 @@
 package main
 
 import (
+	"context"
 	"os"
-
-	log "github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 
+	"example.com/main/config"
 	"example.com/main/routes"
+	"example.com/main/utils"
+	"github.com/joho/godotenv"
 )
 
+// The main function
 func main() {
 
+	// Load the .env file in the current directory
+	envVariableErr := godotenv.Load()
+	if envVariableErr != nil {
+		utils.ErrorLogger.Println("Error loading .env file")
+	}
+
 	router := gin.Default()
+
+	if os.Getenv("GIN_MODE") != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	dsn := os.Getenv("MYSQL_DB_URI")
+
+	// connect to database
+	gormErr := config.ConnectGormDatabase(dsn)
+	// in case an error occurs, save to file logs.log and re run the application
+	if gormErr != nil {
+		customError := utils.CustomError{
+			Message:   gormErr.Error(),
+			ErrorType: utils.DB_ERROR,
+		}
+
+		utils.WriteCustomError(customError)
+
+		// paning because there is no point in running this program without the databases
+		panic(gormErr)
+	}
+
+	// get the DB in the gorm config
+	db := config.DB
+	// validate if the db is nil
+	if db == nil {
+		customError := utils.CustomError{
+			Message:   "DB is nil",
+			ErrorType: utils.DB_ERROR,
+		}
+
+		utils.WriteCustomError(customError)
+		panic("DB is nil")
+	}
+
+	// Get connection uri from environment variables
+	connUri := os.Getenv("MONGO_DB_URI")
+
+	// connect to mongo database
+	mongoClient := config.ConnectMongoDatabase(connUri)
+
+	// defer disconnecting from the database
+	defer func() {
+		// in case there is error disconnecting from the database, save to file logs.log and re run the application
+		if mongoDbErr := mongoClient.Disconnect(context.TODO()); mongoDbErr != nil {
+			customError := utils.CustomError{
+				Message:   mongoDbErr.Error(),
+				ErrorType: utils.DB_ERROR,
+			}
+
+			utils.WriteCustomError(customError)
+
+			// paning because there is no point in running this program without the databases
+			panic(mongoDbErr)
+		}
+	}()
 
 	// load templates
 	router.LoadHTMLGlob("templates/**/*")
@@ -25,19 +90,16 @@ func main() {
 	routes.MainRoutes(router)
 	routes.EndpointRoutes(router)
 
-	err := router.Run() // listen and serve on 0.0.0.0:8080
+	serverErr := router.Run() // listen and serve on 0.0.0.0:8080
 
 	// in case an error occurs, save to file logs.log and re run the application
-	if err != nil {
-		file, fileErr := os.OpenFile("logs.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
-		if fileErr != nil {
-			log.Fatal(fileErr)
+	if serverErr != nil {
+		customError := utils.CustomError{
+			Message:   serverErr.Error(),
+			ErrorType: utils.SERVER_ERROR,
 		}
-		log.SetOutput(file)
-		log.Error("Application crashed: ", err.Error())
 
-		// save the file
-		file.Close()
+		utils.WriteCustomError(customError)
 	}
 
 }
