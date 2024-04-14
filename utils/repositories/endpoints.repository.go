@@ -78,10 +78,34 @@ func (r *MongoEndpointRepository) GetEndpointsByUserId(userId string) ([]models.
 	return endpoints, nil
 }
 
+// This function gets endpoints using filters using the mongo repository
+func (r *MongoEndpointRepository) GetEndpointsByFilters(filters map[string]interface{}) ([]models.EndpointModel, error) {
+	// create a new empty endpoint model object
+	endpoints := []models.EndpointModel{}
+
+	// return the endpoints, save them in a cursor object
+	cursor, cursorErr := r.Conn.Database(r.Database).Collection(r.Collection).Find(context.Background(), filters)
+	if cursorErr != nil {
+		return nil, cursorErr
+	}
+
+	// iterate over the cursor and append the endpoints
+	for cursor.Next(context.Background()) {
+		endpoint := models.EndpointModel{}
+		decodeErr := cursor.Decode(&endpoint)
+		if decodeErr != nil {
+			return nil, decodeErr
+		}
+		endpoints = append(endpoints, endpoint)
+	}
+
+	return endpoints, nil
+}
+
 // This function updates an endpoint by its id using the mongo repository
 func (r *MongoEndpointRepository) UpdateEndpointById(id string, endpoint *models.EndpointModel) error {
 	// update the endpoint
-	_, err := r.Conn.Database(r.Database).Collection(r.Collection).UpdateOne(context.Background(), map[string]string{"id": id}, endpoint)
+	_, err := r.Conn.Database(r.Database).Collection(r.Collection).UpdateOne(context.Background(), map[string]string{"_id": id}, endpoint)
 
 	// if there is an error, return it
 	return err
@@ -90,7 +114,7 @@ func (r *MongoEndpointRepository) UpdateEndpointById(id string, endpoint *models
 // This function deletes an endpoint by its id using the mongo repository
 func (r *MongoEndpointRepository) DeleteEndpointById(id string) error {
 	// delete the endpoint
-	_, err := r.Conn.Database(r.Database).Collection(r.Collection).DeleteOne(context.Background(), map[string]string{"id": id})
+	_, err := r.Conn.Database(r.Database).Collection(r.Collection).DeleteOne(context.Background(), map[string]string{"_id": id})
 
 	// if there is an error, return
 	return err
