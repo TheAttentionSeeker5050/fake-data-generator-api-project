@@ -19,7 +19,7 @@ import (
 var DB *gorm.DB
 
 // Connects to the database using Gorm
-func ConnectDatabase() error {
+func ConnectGormDatabase() error {
 
 	// make the address with environment variables
 	dsn := fmt.Sprintf(

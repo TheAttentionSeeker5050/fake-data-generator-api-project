@@ -3,6 +3,7 @@
 package main
 
 import (
+	"context"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,10 @@ import (
 func main() {
 
 	// Load the .env file in the current directory
-	godotenv.Load()
+	envVariableErr := godotenv.Load()
+	if envVariableErr != nil {
+		utils.ErrorLogger.Println("Error loading .env file")
+	}
 
 	router := gin.Default()
 
@@ -26,19 +30,38 @@ func main() {
 	}
 
 	// connect to database
-	dbError := config.ConnectDatabase()
+	gormErr := config.ConnectGormDatabase()
 	// in case an error occurs, save to file logs.log and re run the application
-	if dbError != nil {
+	if gormErr != nil {
 		customError := utils.CustomError{
-			Message:   dbError.Error(),
+			Message:   gormErr.Error(),
 			ErrorType: utils.DB_ERROR,
 		}
 
 		utils.WriteCustomError(customError)
 
 		// paning because there is no point in running this program without the databases
-		panic(dbError)
+		panic(gormErr)
 	}
+
+	// connect to mongo database
+	mongoClient := config.ConnectMongoDatabase()
+
+	// defer disconnecting from the database
+	defer func() {
+		// in case there is error disconnecting from the database, save to file logs.log and re run the application
+		if mongoDbErr := mongoClient.Disconnect(context.TODO()); mongoDbErr != nil {
+			customError := utils.CustomError{
+				Message:   mongoDbErr.Error(),
+				ErrorType: utils.DB_ERROR,
+			}
+
+			utils.WriteCustomError(customError)
+
+			// paning because there is no point in running this program without the databases
+			panic(mongoDbErr)
+		}
+	}()
 
 	// load templates
 	router.LoadHTMLGlob("templates/**/*")
@@ -49,12 +72,12 @@ func main() {
 	routes.MainRoutes(router)
 	routes.EndpointRoutes(router)
 
-	err := router.Run() // listen and serve on 0.0.0.0:8080
+	serverErr := router.Run() // listen and serve on 0.0.0.0:8080
 
 	// in case an error occurs, save to file logs.log and re run the application
-	if err != nil {
+	if serverErr != nil {
 		customError := utils.CustomError{
-			Message:   dbError.Error(),
+			Message:   serverErr.Error(),
 			ErrorType: utils.SERVER_ERROR,
 		}
 
