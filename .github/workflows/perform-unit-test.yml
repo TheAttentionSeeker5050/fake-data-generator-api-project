@@ -8,13 +8,32 @@ on:
         - main
 jobs:
     build:
-        runs-on: ubuntu-latest
-        steps:
+      runs-on: ubuntu-latest
+      services:
+        # add docker mysql service running on port 3307
+        mysql:
+          image: mysql:latest
+          ports:
+            - 3307:3306
+          env:
+            MYSQL_ROOT_PASSWORD: admin
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: admin
+            MYSQL_DATABASE: fake_data_generator_app
+        # add docker mongo service running on port 27018
+        mongo:
+          image: mongo:latest
+          ports:
+            - 27018:27017
+          env:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
+      steps:
         - uses: actions/checkout@v3
         - name: Set up Go
           uses: actions/setup-go@v4
           with:
-            go-version: '1.20'    
+            go-version: '1.20'
         - name: Build
           run: go build -v ./...
         - name: Test
