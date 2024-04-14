@@ -41,6 +41,9 @@ replace example.com/main/controllers => ./controllers
 // use files in config directory
 replace example.com/main/config => ./config
 
+// use files in repositories directory
+replace example.com/main/utils/repositories => ./utils/repositories
+
 require (
 	github.com/bytedance/sonic v1.11.3 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect

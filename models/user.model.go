@@ -1,4 +1,4 @@
-// This package contains the gorm or mongo models for the user entity
+// This package contains the gorm and mongo models
 package models
 
 // User model for Gorm ORM using MySQL database
