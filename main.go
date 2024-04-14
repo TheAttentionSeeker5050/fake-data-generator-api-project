@@ -29,8 +29,10 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	dsn := os.Getenv("MYSQL_DB_URI")
+
 	// connect to database
-	gormErr := config.ConnectGormDatabase()
+	gormErr := config.ConnectGormDatabase(dsn)
 	// in case an error occurs, save to file logs.log and re run the application
 	if gormErr != nil {
 		customError := utils.CustomError{
@@ -44,8 +46,24 @@ func main() {
 		panic(gormErr)
 	}
 
+	// get the DB in the gorm config
+	db := config.DB
+	// validate if the db is nil
+	if db == nil {
+		customError := utils.CustomError{
+			Message:   "DB is nil",
+			ErrorType: utils.DB_ERROR,
+		}
+
+		utils.WriteCustomError(customError)
+		panic("DB is nil")
+	}
+
+	// Get connection uri from environment variables
+	connUri := os.Getenv("MONGO_DB_URI")
+
 	// connect to mongo database
-	mongoClient := config.ConnectMongoDatabase()
+	mongoClient := config.ConnectMongoDatabase(connUri)
 
 	// defer disconnecting from the database
 	defer func() {

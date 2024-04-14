@@ -14,7 +14,7 @@ import (
 )
 
 // TestCreateEndpoint tests the MongoEndpointRepository and its CRUD operations. It uses the MongoDB test database and the endpoints collection.
-func TestEndpoints(t *testing.T) {
+func TestEndpointsRepository(t *testing.T) {
 
 	// Load the .env file in the current directory
 	envVariableErr := godotenv.Load("../../.env")
@@ -23,11 +23,10 @@ func TestEndpoints(t *testing.T) {
 		return
 	}
 
-	// set environment variable MONGO_DB_URI to MONGO_TEST_DB_URI
-	os.Setenv("MONGO_DB_URI", os.Getenv("MONGO_TEST_DB_URI"))
+	connUri := os.Getenv("MONGO_TEST_DB_URI")
 
 	// call mongo config to connect to the test database
-	client := config.ConnectMongoDatabase()
+	client := config.ConnectMongoDatabase(connUri)
 	defer client.Disconnect(context.Background())
 
 	// Check if the client is nil

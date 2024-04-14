@@ -4,7 +4,6 @@ package config
 // import mysql driver
 import (
 	"fmt"
-	"os"
 
 	// database models
 	models "example.com/main/models"
@@ -19,17 +18,7 @@ import (
 var DB *gorm.DB
 
 // Connects to the database using Gorm
-func ConnectGormDatabase() error {
-
-	// make the address with environment variables
-	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		os.Getenv("MYSQL_DB_USER"),
-		os.Getenv("MYSQL_DB_PASSWORD"),
-		os.Getenv("MYSQL_DB_HOST"),
-		os.Getenv("MYSQL_DB_PORT"),
-		os.Getenv("MYSQL_DB_NAME"),
-	)
+func ConnectGormDatabase(dsn string) error {
 
 	// open the database
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
