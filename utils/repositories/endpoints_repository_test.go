@@ -16,7 +16,7 @@ import (
 // TestCreateEndpoint tests the MongoEndpointRepository and its CRUD operations. It uses the MongoDB test database and the endpoints collection.
 func TestEndpointsRepository(t *testing.T) {
 
-	if os.Getenv("GIN_MODE") != "GITHUB_ACTIONS" {
+	if os.Getenv("GIN_MODE") != "test" {
 
 		// Load the .env file in the current directory
 		envVariableErr := godotenv.Load("../../.env")

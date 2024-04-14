@@ -12,7 +12,7 @@ import (
 )
 
 func TestUsersRepository(t *testing.T) {
-	if os.Getenv("GIN_MODE") != "GITHUB_ACTIONS" {
+	if os.Getenv("GIN_MODE") != "test" {
 
 		// Load the .env file in the current directory
 		envVariableErr := godotenv.Load("../../.env")

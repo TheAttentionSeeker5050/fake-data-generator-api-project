@@ -12,7 +12,7 @@ jobs:
       env:
         MYSQL_TEST_DB_URI: admin:admin@tcp(localhost:3307)/fake_data_generator_app?charset=utf8mb4&parseTime=True&loc=Local
 
-        GIN_MODE: GITHUB_ACTIONS
+        GIN_MODE: test
         MYSQL_USER: admin
         MONGO_DB_NAME: fake_data_generator_app
         MONGO_ENDPOINT_COLLECTION: endpoints
