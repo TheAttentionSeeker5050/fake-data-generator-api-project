@@ -11,7 +11,8 @@ type EndpointModel struct {
 	ID        primitive.ObjectID `json:"_id" bson:"_id"`
 	Name      string             `json:"name" Usage:"required"`
 	Path      string             `json:"path" Usage:"required"`
-	UserID    string             `json:"user_id" Usage:"required"`
+	UserID    string             `json:"user_id" Usage:"required" bson:"user_id"`
+	Method    string             `json:"method" Usage:"required"`
 	CreatedAt time.Time          `json:"created_at"`
 	UpdatedAt time.Time          `json:"updated_at"`
 }

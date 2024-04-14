@@ -35,6 +35,14 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - 27017:27017
+  mongo-test:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27018:27017
 # Names our volume
 volumes:
   my-db:

@@ -2,7 +2,6 @@ package config
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
@@ -19,9 +18,10 @@ func ConnectMongoDatabase() *mongo.Client {
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(MongoDbURI))
 	if err != nil {
 		log.Fatal(err)
+		return nil
 	}
 
-	fmt.Println("Connected to MongoDB!")
+	// fmt.Println("Connected to MongoDB!")
 
 	return client
 }

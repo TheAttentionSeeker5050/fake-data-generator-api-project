@@ -2,9 +2,11 @@ package repositories
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"example.com/main/models"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -33,12 +35,23 @@ func (r *MongoEndpointRepository) CreateEndpoint(endpoint *models.EndpointModel)
 
 // This function returns an endpoint by its id using the mongo repository
 func (r *MongoEndpointRepository) GetEndpointById(id string) (*models.EndpointModel, error) {
-	// create a new empty endpoint model object
-	endpoint := &models.EndpointModel{}
+	// Convert the ID string to ObjectID
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, fmt.Errorf("invalid ObjectID format: %v", err)
+	}
 
-	// return the endpoint, save it in the endpoint object
-	err := r.Conn.Database(r.Database).Collection(r.Collection).FindOne(context.Background(), map[string]string{"id": id}).Decode(endpoint)
-	return endpoint, err
+	// Define the filter to find the endpoint by ID
+	filter := primitive.M{"_id": objectID}
+
+	// Find the endpoint by its ID
+	var endpoint models.EndpointModel
+	err = r.Conn.Database(r.Database).Collection(r.Collection).FindOne(context.Background(), filter).Decode(&endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("error fetching endpoint: %v", err)
+	}
+
+	return &endpoint, nil
 }
 
 // This function returns all the endpoints using the mongo repository for the user id. This returns an array of endpoints
