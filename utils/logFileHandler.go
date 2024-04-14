@@ -6,8 +6,6 @@ import (
 	"os"
 
 	"log"
-
-	"example.com/main/config"
 )
 
 var (
@@ -29,8 +27,13 @@ func init() {
 
 // This function writes errors in the log file
 // it uses argument type CustomError struct
-func WriteCustomError(customError config.CustomError) {
+func WriteCustomError(customError CustomError) {
 	// display error on console
 	fmt.Errorf("%s: %s", customError.ErrorType, customError.Message)
 	ErrorLogger.Println(fmt.Sprintf("%s: %s", customError.ErrorType, customError.Message))
+}
+
+func WriteCustomInfo(message string) {
+	fmt.Println(message)
+	InfoLogger.Println(fmt.Sprintf(message))
 }

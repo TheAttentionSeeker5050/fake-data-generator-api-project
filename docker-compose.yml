@@ -22,6 +22,11 @@ services:
       # Where our data will be persisted
     volumes:
       - my-db:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8082:8080
 # Names our volume
 volumes:
   my-db:

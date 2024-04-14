@@ -1,4 +1,4 @@
-package config
+package utils
 
 // This enum holds error types, this is used to write custom logs
 const (

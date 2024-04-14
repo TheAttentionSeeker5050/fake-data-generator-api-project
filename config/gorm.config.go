@@ -8,6 +8,7 @@ import (
 
 	// database models
 	models "example.com/main/models"
+	"example.com/main/utils"
 
 	// database driver imports
 	"gorm.io/driver/mysql"
@@ -42,6 +43,9 @@ func ConnectDatabase() error {
 	}
 
 	DB = database
+
+	// when successfully initiating the database and migrating models, return a message log
+	utils.WriteCustomInfo("Successfully initiated the database")
 
 	return nil
 }

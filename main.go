@@ -8,9 +8,13 @@ import (
 	"example.com/main/config"
 	"example.com/main/routes"
 	"example.com/main/utils"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	// Load the .env file in the current directory
+	godotenv.Load()
 
 	router := gin.Default()
 
@@ -18,13 +22,15 @@ func main() {
 	dbError := config.ConnectDatabase()
 	// in case an error occurs, save to file logs.log and re run the application
 	if dbError != nil {
-		customError := config.CustomError{
+		customError := utils.CustomError{
 			Message:   dbError.Error(),
-			ErrorType: config.DB_ERROR,
+			ErrorType: utils.DB_ERROR,
 		}
 
 		utils.WriteCustomError(customError)
 
+		// paning because there is no point in running this program without the databases
+		panic(dbError)
 	}
 
 	// load templates
@@ -40,9 +46,9 @@ func main() {
 
 	// in case an error occurs, save to file logs.log and re run the application
 	if err != nil {
-		customError := config.CustomError{
+		customError := utils.CustomError{
 			Message:   dbError.Error(),
-			ErrorType: config.SERVER_ERROR,
+			ErrorType: utils.SERVER_ERROR,
 		}
 
 		utils.WriteCustomError(customError)
