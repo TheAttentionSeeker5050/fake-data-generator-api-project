@@ -1,6 +1,7 @@
-// This package contains the gorm models for the user entity
+// This package contains the gorm or mongo models for the user entity
 package models
 
+// User model for Gorm ORM using MySQL database
 type UserModel struct {
 	ID        uint   `gorm:"primary_key" json:"id"`
 	Username  string `gorm:"unique" json:"username"`

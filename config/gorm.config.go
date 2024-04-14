@@ -15,9 +15,10 @@ import (
 	"gorm.io/gorm"
 )
 
+// Gorm db instance
 var DB *gorm.DB
 
-// ConnectDB connects to the database
+// Connects to the database using Gorm
 func ConnectDatabase() error {
 
 	// make the address with environment variables
@@ -30,18 +31,20 @@ func ConnectDatabase() error {
 		os.Getenv("MYSQL_DB_NAME"),
 	)
 
+	// open the database
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		return fmt.Errorf("Failed to connect to database: \n%s", err.Error())
 	}
 
+	// migrate the database objects
 	err = database.AutoMigrate(&models.UserModel{})
 	if err != nil {
-		// panic(fmt.Sprintf("Failed to migrate database: \n%s", err.Error()))
 		return fmt.Errorf("Failed to migrate database: \n%s", err.Error())
 	}
 
+	// update the instance for use by the server utilities
 	DB = database
 
 	// when successfully initiating the database and migrating models, return a message log

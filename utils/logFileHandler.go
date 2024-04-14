@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+// Types of loggers for the log library
 var (
 	WarningLogger *log.Logger
 	InfoLogger    *log.Logger
@@ -25,14 +26,14 @@ func init() {
 	ErrorLogger = log.New(file, "ERROR - ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
-// This function writes errors in the log file
-// it uses argument type CustomError struct
+// This function writes errors in the log file. It uses argument type CustomError struct
 func WriteCustomError(customError CustomError) {
 	// display error on console
 	fmt.Errorf("%s: %s", customError.ErrorType, customError.Message)
 	ErrorLogger.Println(fmt.Sprintf("%s: %s", customError.ErrorType, customError.Message))
 }
 
+// This function writes info logs into the log file. It uses argument string
 func WriteCustomInfo(message string) {
 	fmt.Println(message)
 	InfoLogger.Println(fmt.Sprintf(message))

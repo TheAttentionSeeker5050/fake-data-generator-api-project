@@ -8,6 +8,7 @@ const (
 	SERVER_ERROR         = "SERVER_ERROR"
 )
 
+// This is a custom error struct to handle the writing these in error files. Can be any of the error types above
 type CustomError struct {
 	Message   string
 	ErrorType string

@@ -3,6 +3,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 
 	"example.com/main/config"
@@ -11,12 +13,17 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// The main function
 func main() {
 
 	// Load the .env file in the current directory
 	godotenv.Load()
 
 	router := gin.Default()
+
+	if os.Getenv("GIN_MODE") != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	// connect to database
 	dbError := config.ConnectDatabase()
