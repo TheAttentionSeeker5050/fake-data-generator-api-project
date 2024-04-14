@@ -16,11 +16,14 @@ import (
 // TestCreateEndpoint tests the MongoEndpointRepository and its CRUD operations. It uses the MongoDB test database and the endpoints collection.
 func TestEndpointsRepository(t *testing.T) {
 
-	// Load the .env file in the current directory
-	envVariableErr := godotenv.Load("../../.env")
-	assert.Nil(t, envVariableErr, "Expected no error loading .env file")
-	if envVariableErr != nil {
-		return
+	if os.Getenv("GIN_MODE") != "GITHUB_ACTIONS" {
+
+		// Load the .env file in the current directory
+		envVariableErr := godotenv.Load("../../.env")
+		assert.Nil(t, envVariableErr, "Expected no error loading .env file")
+		if envVariableErr != nil {
+			return
+		}
 	}
 
 	connUri := os.Getenv("MONGO_TEST_DB_URI")

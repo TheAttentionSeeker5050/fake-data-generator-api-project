@@ -12,11 +12,14 @@ import (
 )
 
 func TestUsersRepository(t *testing.T) {
-	// Load the .env file in the current directory
-	envVariableErr := godotenv.Load("../../.env")
-	assert.Nil(t, envVariableErr, "Expected no error loading .env file")
-	if envVariableErr != nil {
-		return
+	if os.Getenv("GIN_MODE") != "GITHUB_ACTIONS" {
+
+		// Load the .env file in the current directory
+		envVariableErr := godotenv.Load("../../.env")
+		assert.Nil(t, envVariableErr, "Expected no error loading .env file")
+		if envVariableErr != nil {
+			return
+		}
 	}
 
 	// Get the connection uri from the environment variables
