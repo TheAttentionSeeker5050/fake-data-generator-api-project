@@ -6,12 +6,14 @@ import (
 	"context"
 	"os"
 
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 
 	"example.com/main/config"
 	"example.com/main/routes"
 	"example.com/main/utils"
 	"github.com/joho/godotenv"
+	// multitemplate is a package that allows you to use multiple templates in a single file
 )
 
 // The main function
@@ -81,6 +83,13 @@ func main() {
 		}
 	}()
 
+	renderer := multitemplate.NewRenderer()
+	// add from directory /templates/main/*
+	renderer.AddFromGlob("main", "templates/main/*")
+	// add from directory /templates/endpoints/*
+	renderer.AddFromGlob("endpoint", "templates/endpoints/*")
+	// add from partials directory /templates/partials/*
+	renderer.AddFromGlob("partials", "templates/partials/*")
 	// load templates
 	router.LoadHTMLGlob("templates/**/*")
 

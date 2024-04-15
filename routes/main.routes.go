@@ -18,7 +18,7 @@ func MainRoutes(router *gin.Engine) *gin.RouterGroup {
 		mainRouter.GET("", func(c *gin.Context) {
 			// render page
 			c.HTML(http.StatusOK, "main/index.html", gin.H{
-				"title": "Hello World",
+				"title": "Index",
 			})
 		})
 

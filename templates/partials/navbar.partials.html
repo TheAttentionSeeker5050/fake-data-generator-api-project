@@ -1,12 +1,15 @@
 {{define "partials/navbar.html"}}
-<header>
+<header class="bg-purple-500 text-white px-2 py-4">
     <nav>
-        <ul>
+        <ul class="flex flex-row gap-2">
             <li>
-                <a href="{{.AppURL}}/endpoints">Endpoints</a>
+                <a href="/endpoints">Endpoints</a>
             </li>
             <li>
-                <a href="{{.AppURL}}/register">Register</a>
+                <a href="/register">Register</a>
+            </li>
+            <li>
+                <a href="/login">Login</a>
             </li>
         </ul>
     </nav>
